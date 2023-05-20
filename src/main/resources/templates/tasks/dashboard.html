@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: sans-serif;
+}
+
+.page {
+	width: 100%;
+	max-width: 960px;
+	margin: 0px auto;
+	padding: 20px;
+}
+
+.dashboard {
+	border-radius: 5px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0
+		rgba(0, 0, 0, 0.12);
+	display: flex;
+	padding: 10px;
+	margin-bottom: 20px;
+}
+
+.card {
+	width: 25%;
+	height: 100px;
+	min-width: 200px;
+	margin: 5px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0
+		rgba(0, 0, 0, 0.12);
+}
+
+.card .card-reader {
+	text-align: center;
+	font-weight: bold;
+	font-size: 18px;
+	padding: 10px 0px;
+	color: #6833e4;
+}
+
+.card .card-content {
+	text-align: center;
+	font-weight: bold;
+	font-size: 32px;
+	padding-bottom: 10px;
+}
+
+.actions {
+	display: flex;
+	padding: 20px;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0
+		rgba(0, 0, 0, 0.12);
+	margin-bottom: 20px;
+}
+
+.actions form {
+	flex-grow: 1;
+}
+
+.actions form input[type='text'] {
+	height: 40px;
+	width: 55%;
+	margin-bottom: 10px;
+	padding: 0;
+	border: none;
+	outline: none;
+	background-color: #f7f7f7;
+	padding: 0px 10px;
+	font-size: 18px;
+	border-radius: 5px;
+}
+
+.actions form button {
+	height: 40px;
+	width: 100px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	border-radius: 5px;
+}
+
+.actions form input[type='radio'] {
+	margin: 5px 10px;
+	height: 15px;
+	width: 15px;
+}
+
+.actions form label {
+	font-size: 18px;
+}
+
+a.btn.btn-new-task {
+	text-decoration: none;
+	display: inline-block;
+	padding: 10px;
+	text-align: center;
+	line-height: 1.5;
+	color: #fff;
+	background-color: #6833e4;
+	height: 40px;
+	min-width: 120px;
+	border-radius: 5px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+a.btn.btn-new-task:hover {
+	color: #ccc;
+}
+
+.content {
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0
+		rgba(0, 0, 0, 0.12);
+	padding:20px;
+	border-radius: 5px;
+}
+
+table {
+	width: 100%;
+}
+
+table thead tr {
+	color: #fff;
+	background-color: #6833e4;
+	height: 40px;
+}
+
+table thead tr th{
+	padding: 5px 10px;
+	text-align: left;
+	border-radius: 5px;
+}
+
+table tbody tr{
+	height: 40px;
+}
+
+table tbody tr td{
+	padding: 5px 10px;
+	text-align: left;
+}
+
+td a{
+	text-decoration: none;
+}
+</style>
+</head>
+<body>
+	<div class="page">
+		<div class="dashboard">
+			<div class="card">
+				<p class="card-reader">Minhas Tarefas Abertas</p>
+				<p class="card-content" th:text=${totalOpenTasks}></p>
+			</div>
+			<div class="card">
+				<p class="card-reader">Minhas Tarefas Concluídas</p>
+				<p class="card-content" th:text=${totalFinishedTasks}></p>
+			</div>
+			<div class="card">
+				<p class="card-reader">Minhas Tarefas</p>
+				<p class="card-content" th:text=${totalMyTasks}></p>
+			</div>
+			<div class="card">
+				<p class="card-reader">Total de Tarefas</p>
+				<p class="card-content" th:text=${totalTasks}></p>
+			</div>
+		</div>
+		<div class="actions">
+			<form>
+				<div>
+					<input placeholder="Pesquisar por" type="text">
+					<button type="submit">Pesquisar</button>
+				</div>
+				<div>
+					<label><input type="radio" name="status" />Abertas </label> <label><input
+						type="radio" name="status" />Concluídas </label> <label><input
+						type="radio" name="status" />Todas </label>
+				</div>
+			</form>
+			<a href="#" class="btn btn-new-task">Nova tarefa</a>
+		</div>
+		<div class="content">
+			<table>
+				<thead>
+					<tr>
+						<th>Código</th>
+						<th>Título</th>
+						<th>Descrição</th>
+						<th>Status</th>
+						<th>Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="task: ${tasks}">
+						<td th:text="${task.id}"></td>
+						<td th:text="${task.title}"></td>
+						<td th:text="${task.description}"></td>
+						<td th:text="${task.status}"></td>
+						<td><a href="#">Editar</a> / <a href="#">Remover</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
