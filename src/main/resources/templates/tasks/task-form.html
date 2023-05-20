@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+	.error-message{
+		color: red;
+	}
+	.sucess-message{
+		color:green;
+		transition: all 2s ease-out 0.3s;
+	}
+	.hide{
+		display: none;
+	}
+</style>
+</head>
+<body>
+<div class="page">
+	<div class="page-header">
+		<h1>Gerenciador de Tarefas</h1>
+	</div>
+	<div class="page-content">
+		<h3 class="form-title" th:value="${currentTask.id != null } ? ${currentTask.title} : 'Nova Tarefa'"></h3>
+		<div th:if="${message != null && message.length() > 0}">
+			<p th:text="${message}" class="sucess-message"></p>
+		</div>
+		<div th:if="${errorMessage != null && errorMessage.length() > 0}">
+			<p th:text="${errorMessage}" class="error-message"></p>
+		</div>
+		<form th:object="${currentTask}" action="/tasks" method="post">
+			<div class="form-actions">
+				<button type="submit">Salvar</button>
+			</div>
+			<div class="form-content">
+				<div class="grid-line">
+					<div class="grid-col-2 flex-column">
+						<label>Código</label>
+						<input placeholder="Código" th:field="*{id}" disabled >
+					</div>
+					<div class="grid-col-2 flex-column">
+						<label>Status</label>
+						<select  th:field="*{status}">
+							<option
+								th:each="status : ${allStatus}"
+								th:value="${status}"
+								th:text="${status}"
+							></option>
+						</select>
+					</div>
+				</div>
+				<div class="grid-line">
+					<div class="grid-col-12 flex-column">
+						<label>Título</label>
+						<input placeholder="Digite o título da tarefa" th:field="*{title}" >
+					</div>
+				</div>
+				<div class="grid-line">
+					<div class="grid-col-12 flex-column">
+						<label>Descrição</label>
+						<textarea  th:field="*{description}" ></textarea>
+					</div>
+				</div>
+			</div>
+			
+		
+		</form>
+	</div>
+	
+</div>
+<script>
+	setTimeout(()=>{
+		const message = document.querySelector(".sucess-message");	
+		
+		if(message){
+			message.classList.toggle("hide");		
+		}
+	},5000);
+	
+</script>
+
+</body>
+</html>
